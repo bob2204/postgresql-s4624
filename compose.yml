@@ -1,0 +1,25 @@
+---
+services:
+  pgadmin:
+    image: dpage/pgadmin4:${VERSION}
+    container_name: pgadmin4
+    hostname: pgadmin4
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=bob@ici.org
+      - PGADMIN_DEFAULT_PASSWORD=azerty
+    restart: always
+    volumes:
+      - ./data:/var/lib/pgadmin
+      - ./passwd-pgadmin:/etc/passwd
+    stop_grace_period: 1s
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      pgadmin-net:
+
+networks:
+  pgadmin-net:
+    driver_opts:
+      com.docker.network.bridge.name: br-pgadmin
